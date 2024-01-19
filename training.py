@@ -35,12 +35,16 @@ def grad(X, Y, theta):
     return 1 / m * X.T.dot(model(X, theta) - Y)
 
 def gradient_descent(X, Y, theta, learning_rate, learning_loop):
+    cost_history = np.zeros(learning_loop)
     for loop in range(learning_loop):
         theta = theta - learning_rate * grad(X, Y, theta)
-    return theta
+        cost_history[loop] = cost_function(X, Y, theta)
+    return theta, cost_history
+
+def cost_function(X, Y, theta):
+    return 1 / (2 * m) * np.sum((model(X, theta) - Y) ** 2)
 
 def algo_perf(prediction):
-    
     mean_Y = np.mean(Y)
     SST = np.sum((Y - mean_Y) ** 2)
     SSR = np.sum((Y - prediction) ** 2)
@@ -48,19 +52,28 @@ def algo_perf(prediction):
     print("Coefficient de détermination R² :", R_sq)
 
 
-theta = gradient_descent(X, Y, theta, learning_rate, learning_loop)
+theta, cost_history = gradient_descent(X, Y, theta, learning_rate, learning_loop)
 datacsv = {'theta0': [theta[0,0]], 'theta1': [theta[1,0]], 'km_std': [std_x], 'km_mean': [x_mean]}
 theta_data = pd.DataFrame(datacsv, columns=['theta0', 'theta1', 'km_std', 'km_mean'])
 theta_data.to_csv('./theta.csv', index=False)
 predict = model(X, theta)
 algo_perf(predict)
-plt.scatter(data['km'], data['price'], color='blue',s=10)
-plt.plot(data['km'], predict, color='red')
-plt.xlabel('Mileage(Km)', color='blue')
-plt.ylabel('Price(€)',color='blue')
-plt.title('Scatter distribution of price vs km', color='blue')
-plt.gca().xaxis.set_major_formatter(plt.FormatStrFormatter('%d'))
-plt.gca().xaxis.set_major_locator(plt.MultipleLocator(40000))
+# Print the 2 plot in the same time
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+ax1.plot(range(learning_loop), cost_history, color='blue')
+ax1.set_title('Cost function', color='blue')
+ax1.set_xlabel('Number of iterations')
+ax1.set_ylabel('Cost')
+
+# Deuxième graphique (Regression line)
+ax2.scatter(data['km'], data['price'], color='blue', s=10)
+ax2.plot(data['km'], predict, color='red')
+ax2.set_xlabel('Mileage (Km)', color='blue')
+ax2.set_ylabel('Price (€)', color='blue')
+ax2.set_title('Scatter distribution of price vs km', color='blue')
+ax2.xaxis.set_major_formatter(plt.FormatStrFormatter('%d'))
+ax2.xaxis.set_major_locator(plt.MultipleLocator(40000))
 
 if __name__ == "__main__":
+    plt.tight_layout()
     plt.show()

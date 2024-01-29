@@ -10,14 +10,15 @@ Ce projet consiste à implémenter une régression linéaire simple pour prédir
 ## Installation
 ```bash
 git clone git@github.com:LeDiabetique/linear_regression.git
-
+```
 ## Usage
 
 ### Programme d'entraînement
 Pour entraîner le modèle :
 ```bash
 python training.py <dataset_file.csv>
-
+```
 ### Programme de prédiction
 ```bash
 python predi.py
+```

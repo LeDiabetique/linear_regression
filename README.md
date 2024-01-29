@@ -1,25 +1,23 @@
-ft_linear_regression
-Description
+# ft_linear_regression
+
+## Description
 Ce projet consiste à implémenter une régression linéaire simple pour prédire le prix des voitures en fonction de leur kilométrage. Le projet se divise en deux programmes principaux : la prédiction et l'entraînement.
 
-Prérequis
-Python3.10
-Bibliothèques de base pour le calcul et la visualisation des données (ex : NumPy, Matplotlib en Python).
+## Prérequis
+- Python 3.10
+- Bibliothèques NumPy, Matplotlib, Pandas, PyQt5
 
-bash
-Copy code
+## Installation
+```bash
 git clone git@github.com:LeDiabetique/linear_regression.git
-Usage
-Programme d'entraînement
+
+## Usage
+
+### Programme d'entraînement
 Pour entraîner le modèle :
+```bash
+python training.py <dataset_file.csv>
 
-bash
-Copy code
-python train.py <dataset>
-
-Programme de prédiction
-Pour exécuter le programme de prédiction :
-
-bash
-Copy code
-python predict.py 
+### Programme de prédiction
+```bash
+python predi.py
